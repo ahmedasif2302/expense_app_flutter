@@ -1,4 +1,4 @@
-import 'package:fh_clone/expenses.dart';
+import 'package:fh_clone/expenses/expenses.dart';
 import 'package:flutter/material.dart';
 
 void main() {
