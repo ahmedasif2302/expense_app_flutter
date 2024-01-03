@@ -22,14 +22,37 @@ class ExpenseModel {
   final DateTime date; // Special Data type to store date
   final Categories category;
 
-  ExpenseModel(
-      {required this.title,
-      required this.amount,
-      required this.date,
-      required this.category})
-      : id = uuid.v4();
+  ExpenseModel({
+    required this.title,
+    required this.amount,
+    required this.date,
+    required this.category,
+  }) : id = uuid.v4();
 
   String get formattedDate {
     return dateFormatter.format(date);
+  }
+}
+
+class ExpenseBucket {
+  ExpenseBucket({required this.expenses, required this.category});
+
+  ExpenseBucket.forCategory(
+    List<ExpenseModel> allExpenses,
+    this.category,
+  ) : expenses = allExpenses
+            .where((expense) => expense.category == category)
+            .toList();
+
+  final List<ExpenseModel> expenses;
+  final Categories category;
+
+  double get totalExpenses {
+    double sum = 0;
+    for (var expense in expenses) {
+      sum += expense.amount;
+    }
+
+    return sum;
   }
 }

@@ -72,86 +72,90 @@ class _NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
-      child: Column(
-        children: [
-          TextField(
-            onChanged: _onChangeText,
-            maxLength: 43,
-            keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              label: Text('Title'),
+    return LayoutBuilder(builder: (ctx, constraints) {
+      print(constraints);
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
+        child: Column(
+          children: [
+            TextField(
+              onChanged: _onChangeText,
+              maxLength: 43,
+              keyboardType: TextInputType.emailAddress,
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                hintText: 'Please enter a search term',
+              ),
             ),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  onChanged: _onChangeAmount,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    prefixText: '\$',
-                    label: Text('Amount'),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    onChanged: _onChangeAmount,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      prefixText: '\$',
+                      label: Text('Amount'),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                width: 16,
-              ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(_selectedDate != null
-                        ? dateFormatter.format(_selectedDate!)
-                        : "No Date Selected"),
-                    IconButton(
-                      onPressed: _openDatePicker,
-                      icon: const Icon(Icons.calendar_month),
-                    )
-                  ],
+                const SizedBox(
+                  width: 16,
                 ),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Row(
-            children: [
-              DropdownButton(
-                value: dropdownValue,
-                items: Categories.values
-                    .map((category) => DropdownMenuItem(
-                          value: category,
-                          child: Text(category.name.toUpperCase().toString()),
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    dropdownValue = value!;
-                  });
-                },
-              ),
-              const Spacer(
-                flex: 5,
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Cancel'),
-              ),
-              ElevatedButton(
-                onPressed: _onSaveHandler,
-                child: const Text('Save Expense'),
-              )
-            ],
-          ),
-        ],
-      ),
-    );
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(_selectedDate != null
+                          ? dateFormatter.format(_selectedDate!)
+                          : "No Date Selected"),
+                      IconButton(
+                        onPressed: _openDatePicker,
+                        icon: const Icon(Icons.calendar_month),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                DropdownButton(
+                  value: dropdownValue,
+                  items: Categories.values
+                      .map((category) => DropdownMenuItem(
+                            value: category,
+                            child: Text(category.name.toUpperCase().toString()),
+                          ))
+                      .toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      dropdownValue = value!;
+                    });
+                  },
+                ),
+                const Spacer(
+                  flex: 5,
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancel'),
+                ),
+                ElevatedButton(
+                  onPressed: _onSaveHandler,
+                  child: const Text('Save Expense'),
+                )
+              ],
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

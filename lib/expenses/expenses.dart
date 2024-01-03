@@ -45,22 +45,25 @@ class _ExpensesState extends State<Expenses> {
       _expensesList.remove(expense);
     });
     ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      duration: const Duration(milliseconds: 3000),
-      content: const Text('Expense deleted.'),
-      action: SnackBarAction(
-        label: 'Undo',
-        onPressed: () {
-          setState(() {
-            _expensesList.insert(expenseIndex, expense);
-          });
-        },
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(milliseconds: 3000),
+        content: const Text('Expense deleted.'),
+        action: SnackBarAction(
+          label: 'Undo',
+          onPressed: () {
+            setState(() {
+              _expensesList.insert(expenseIndex, expense);
+            });
+          },
+        ),
       ),
-    ));
+    );
   }
 
   void _openModal() {
     showModalBottomSheet(
+        useSafeArea: true,
         isScrollControlled: true,
         context: context,
         builder: (ctx) => NewExpense(addExpenseHandler: addExpense));
@@ -68,8 +71,11 @@ class _ExpensesState extends State<Expenses> {
 
   @override
   Widget build(BuildContext context) {
-    Widget listContent = const Center(
-      child: Text('No data found....'),
+    Widget listContent = Center(
+      child: Text(
+        'No data found....',
+        style: Theme.of(context).textTheme.titleLarge,
+      ),
     );
 
     if (_expensesList.isNotEmpty) {
@@ -87,7 +93,12 @@ class _ExpensesState extends State<Expenses> {
       ),
       body: Column(
         children: [
-          const Text("The Charts"),
+          Text(
+            ExpenseBucket.forCategory(
+              _expensesList,
+              Categories.food,
+            ).totalExpenses.toString(),
+          ),
           Expanded(child: listContent),
         ],
       ),
